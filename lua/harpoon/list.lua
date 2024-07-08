@@ -132,6 +132,10 @@ end
 
 ---@param item? HarpoonListItem
 function HarpoonList:add(item)
+    -- prevent non-normal buffers (NvimTree/harpoon jumplist)
+    if vim.bo.buftype ~= "" then
+        return self
+    end
     item = item or self.config.create_list_item(self.config)
 
     local index = index_of(self.items, self._length, item, self.config)
